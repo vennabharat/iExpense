@@ -8,5 +8,19 @@
 import Foundation
 
 class PersonalExpenses: ObservableObject {
-    @Published var personalItems = [ExpenseItem]()
+    @Published var personalItems = [ExpenseItem]() {
+        didSet {
+            if let data = try? JSONEncoder().encode(personalItems) {
+                UserDefaults.standard.set(data, forKey: "Personal")
+            }
+        }
+    }
+    init() {
+        if let savedData = UserDefaults.standard.data(forKey: "Personal"){
+            if let decoded = try? JSONDecoder().decode([ExpenseItem].self, from: savedData) {
+                personalItems = decoded
+            }
+        }
+        personalItems = []
+    }
 }
