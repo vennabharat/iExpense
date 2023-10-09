@@ -19,6 +19,7 @@ class PersonalExpenses: ObservableObject {
         if let savedData = UserDefaults.standard.data(forKey: "Personal"){
             if let decoded = try? JSONDecoder().decode([ExpenseItem].self, from: savedData) {
                 personalItems = decoded
+                return
             }
         }
         personalItems = []

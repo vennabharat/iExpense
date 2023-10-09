@@ -46,13 +46,31 @@ struct ContentView: View {
                     if(personalSection){
 //                        code for personal expenses
                         ForEach(personalExpenditure.personalItems) { item in
-                            Text(item.name)
+                            HStack{
+                                VStack(alignment: .leading){
+                                    Text(item.name)
+                                        .font(.headline)
+                                    Text(item.type)
+                                        .foregroundColor(.gray)
+                                }
+                                Spacer()
+                                Text(item.amount, format: .currency(code: "INR"))
+                            }
                             }
                         .onDelete(perform: removeItems)
                     } else {
                         //code for business expenses
                         ForEach(businessExpenditure.businessItems) { item in
-                            Text(item.name)
+                            HStack{
+                                VStack(alignment: .leading){
+                                    Text(item.name)
+                                        .font(.headline)
+                                    Text(item.type)
+                                        .foregroundColor(.gray)
+                                }
+                                Spacer()
+                                Text(item.amount, format: .currency(code: "INR"))
+                            }
                         }
                         .onDelete(perform: removeItems)
                     }
