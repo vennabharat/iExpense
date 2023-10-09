@@ -9,64 +9,52 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @StateObject var expenses = Expenses()
-    
-    @State private var showingSheet = false
-    
-    func removeRow(at offset: IndexSet) {
-        expenses.items.remove(atOffsets: offset)
-    }
-    
-    func returnColor(_ value: Double) -> Color {
-        if value < 200 && value > 50{
-            return .orange
-        } else if value > 200 {
-            return .red
-        } else {
-            return .green
-        }
-        
-    }
-    
-    func returnFont(_ value: Double) -> Font {
-        if value < 200 && value > 50{
-            return .title2
-        } else if value > 200 {
-            return .title
-        } else {
-            return .title3
-        }
-        
-    }
+    @State private var personalSection = true // property for switching in between sections
+    @StateObject var personalExpenditure = PersonalExpenses()
+//    @StateObject var businessExpenditure = BusinessExpenses()
     
     var body: some View {
-        NavigationStack {
-            Form {
-                ForEach(expenses.items) { item in
+        NavigationStack{
+            Form{
+                Section{
                     HStack{
-                        VStack(alignment: .leading){
-                            Text(item.name)
-                                .font(.headline)
-                            Text(item.type)
-                                .foregroundColor(.gray)
+                        Button("Personal"){
+                            personalSection = true
                         }
+                        .buttonStyle(.bordered)
                         Spacer()
-                        Text(item.amount, format: .currency(code:  item.currencyCode))
-                            .foregroundColor(returnColor(item.amount))
-                            .font(returnFont(item.amount))
+                        Button("Business"){
+                            personalSection = false
+                        }
+                        .buttonStyle(.bordered)
                     }
                 }
-                .onDelete(perform: removeRow)
+//                Section{
+//                    Text(personalExpenditure.personalItems.)
+//                }
+                Section{
+//                    if(personalSection){
+                        //code for personal expenses
+                        ForEach(personalExpenditure.personalItems) { item in
+                            Text(item.name)
+                            }
+//                    } else {
+//                        //code for business expenses
+//                        ForEach(businessExpenditure.businessItems) { item in
+//                            Text(item.name)
+//                        }
+//                    }
+                }
             }
             .navigationTitle("iExpense")
             .toolbar {
                 Button{
-                    showingSheet = true
+                    let pItem = ExpenseItem(name: "bread", type: "Personal", amount: 5.0)
+//                    let bItem = ExpenseItem(name: "Team lunch", type: "Business", amount: 60.0)
+                    PersonalExpenses().personalItems.append(pItem)
+//                    BusinessExpenses().businessItems.append(bItem)
                 } label: {
                     Image(systemName: "plus")
-                }
-                .sheet(isPresented: $showingSheet){
-                    AddView(expenses: expenses)
                 }
             }
         }
