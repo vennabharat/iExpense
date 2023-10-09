@@ -15,6 +15,28 @@ struct ContentView: View {
     
     @State private var showingSheet = false
     
+    func returnColor(_ value: Double) -> Color {
+        if value < 200 && value > 50{
+            return .orange
+        } else if value > 200 {
+            return .red
+        } else {
+            return .green
+        }
+        
+    }
+    
+    func returnFont(_ value: Double) -> Font {
+        if value < 200 && value > 50{
+            return .title2
+        } else if value > 200 {
+            return .title
+        } else {
+            return .title3
+        }
+        
+    }
+    
     func removeItems(at offset: IndexSet) {
         if(personalSection) {
             personalExpenditure.personalItems.remove(atOffsets: offset)
@@ -55,6 +77,8 @@ struct ContentView: View {
                                 }
                                 Spacer()
                                 Text(item.amount, format: .currency(code: "INR"))
+                                    .foregroundColor(returnColor(item.amount))
+                                    .font(returnFont(item.amount))
                             }
                             }
                         .onDelete(perform: removeItems)
@@ -70,6 +94,8 @@ struct ContentView: View {
                                 }
                                 Spacer()
                                 Text(item.amount, format: .currency(code: "INR"))
+                                    .foregroundColor(returnColor(item.amount))
+                                    .font(returnFont(item.amount))
                             }
                         }
                         .onDelete(perform: removeItems)
