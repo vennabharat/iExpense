@@ -17,8 +17,10 @@ struct AddView: View {
     @State private var name = ""
     @State private var type = "Personal"
     @State private var amount = 0.0
+    @State private var currencyCode = "INR"
     
     let types = ["Personal", "Business"]
+    let currencyArray = ["INR", "AED" , "AUD" , "BZD" , "DKK" , "EUR" , "GBP" , "JPY" , "KES" , "MXN" , "OMR" , "STD" , "USD" , "XCD", "ZWD"]
     
     var body: some View {
         NavigationStack{
@@ -29,12 +31,20 @@ struct AddView: View {
                         Text(type)
                     }
                 }
-                TextField("Amount", value: $amount, format: .currency(code: "INR"))
+                HStack{
+                    Picker("Select currency", selection: $currencyCode) {
+                        ForEach(currencyArray, id: \.self) { code in
+                            Text(code)
+                        }
+                    }
+                    .labelsHidden()
+                    TextField("Amount", value: $amount, format: .currency(code: currencyCode))
+                }
             }
             .navigationTitle("Add Item")
             .toolbar {
                 Button{
-                    let item = ExpenseItem(name: name, type: type, amount: amount)
+                    let item = ExpenseItem(name: name, type: type, amount: amount, currencyCode: currencyCode)
                     if(type == "Personal") {
                         personalExpenditure.personalItems.append(item)
                     } else {

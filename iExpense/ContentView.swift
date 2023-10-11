@@ -76,7 +76,7 @@ struct ContentView: View {
                                         .foregroundColor(.gray)
                                 }
                                 Spacer()
-                                Text(item.amount, format: .currency(code: "INR"))
+                                Text(item.amount, format: .currency(code: item.currencyCode))
                                     .foregroundColor(returnColor(item.amount))
                                     .font(returnFont(item.amount))
                             }
@@ -93,7 +93,7 @@ struct ContentView: View {
                                         .foregroundColor(.gray)
                                 }
                                 Spacer()
-                                Text(item.amount, format: .currency(code: "INR"))
+                                Text(item.amount, format: .currency(code: item.currencyCode))
                                     .foregroundColor(returnColor(item.amount))
                                     .font(returnFont(item.amount))
                             }
